@@ -193,8 +193,7 @@ class APICore
         } elseif ($return_code == 200) {
             $success_msg = true;
         }
-        echo $buffer;
-        exit;
+        
         $this->response = array(
             'url' => $this->url,
             'code' => $return_code,
