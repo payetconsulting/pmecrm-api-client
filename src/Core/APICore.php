@@ -164,9 +164,6 @@ class APICore
         //DATA CONTENT
         $post_array = (isset($params[0]) && is_array($params[0]) && count($params[0]) > 0) ? $params[0] : array();
 
-        //API DATA CONTENT
-        $post_info = array_merge($post_array, $this->conf);
-
         //CURL
         $curl_handle = curl_init();
         curl_setopt($curl_handle, CURLOPT_URL, $this->url);
@@ -174,9 +171,15 @@ class APICore
         curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, 2);
 
+        curl_setopt($curl_handle, CURLOPT_HTTPHEADER, array(
+            'Instance: '.$this->conf['instance'],
+            'ApiKey: '.$this->conf['apiKey'],
+            'LoginKey: '.$this->conf['LoginKey']
+        ));
+        
         if (($this->request_mode == 'POST') || ($this->request_mode == 'PUT')):
             curl_setopt($curl_handle, CURLOPT_POST, 1);
-            curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $post_info);
+            curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $post_array);
         endif;
 
         if ($this->request_mode == 'DELETE') {
