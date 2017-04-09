@@ -85,6 +85,9 @@ class APICore
         //API KEY :
         $this->conf['apiKey'] = isset($config['apiKey']) ? $config['apiKey'] : '';
 
+        //LOGIN KEY :
+        $this->conf['LoginKey'] = isset($config['LoginKey']) ? $config['LoginKey'] : '';
+
         //USERID :
         $this->conf['userid'] = isset($config['userid']) ? (int)$config['userid'] : '';
 
@@ -94,6 +97,10 @@ class APICore
 
         if (trim($this->conf['apiKey']) == '') {
             throw new Exception('API KEY is mandatory (field: "apiKey")');
+        }
+
+        if (trim($this->conf['LoginKey']) == '') {
+            throw new Exception('LOGIN KEY is mandatory (field: "LoginKey")');
         }
 
         if (trim($this->conf['userid']) == '') {
