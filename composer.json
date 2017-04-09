@@ -1,5 +1,6 @@
 {
   "name": "payetconsulting/pmecrm-api-client",
+  "version": "1.0",
   "description": "PME CRM : API",
   "require": {
     "php": ">=5.5.0"
