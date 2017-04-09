@@ -83,7 +83,7 @@ class APICore
         $this->conf['instance'] = isset($config['instance']) ? $config['instance'] : '';
 
         //API KEY :
-        $this->conf['apiKey'] = isset($config['apikey']) ? $config['apikey'] : '';
+        $this->conf['apiKey'] = isset($config['apiKey']) ? $config['apiKey'] : '';
 
         //USERID :
         $this->conf['userid'] = isset($config['userid']) ? (int)$config['userid'] : '';
