@@ -219,7 +219,7 @@ class APICore
             'message' => $buffer,
             'success' => $success_msg
         );
-echo json_encode($this->response);
+
         curl_close($curl_handle);
     }
 }
