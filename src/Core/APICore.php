@@ -17,9 +17,14 @@ class APICore
     private $version;
 
     /**
-     * API URL
+     * API URL CALLED ($_url/$action)
      **/
     private $url;
+
+    /**
+     * API URL
+     */
+    private $_url;
 
     /**
      * Send Method
@@ -50,7 +55,7 @@ class APICore
     public function __construct($version, $url, $method = 'POST')
     {
         $this->version = $version;
-        $this->url = $url;
+        $this->_url = $url;
         $this->method = $method;
     }
 
@@ -113,9 +118,11 @@ class APICore
      **/
     private function requestUrlBuilder($request)
     {
-        if (trim($this->url) == '') {
+        if (trim($this->_url) == '') {
             throw new Exception('API URL is not valid');
         }
+
+        $this->url = $this->_url; // used 2 variables because of bug when we call API 2 or more times...
 
         if ($this->url{strlen($this->url) - 1} != '/') {
             $this->url .= '/';
