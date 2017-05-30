@@ -55,7 +55,7 @@ class APICore
     }
 
     /**
-     * Apel api
+     * Call API
      *
      * @param $request
      * @param $params
@@ -72,7 +72,7 @@ class APICore
         //Dernière analyse et envoie de la requête
         $this->sendRequest($params);
     }
-
+    
     /**
      * @param array $config
      * @throws Exception
@@ -144,6 +144,8 @@ class APICore
                 $request_mode = 'GET';
             } elseif ($mode == 'remove') {
                 $request_mode = 'DELETE';
+            } elseif ($mode == 'sendmail') {
+                $request_mode = 'POST';
             }
 
             if (!in_array($request_mode, array('POST', 'PUT', 'GET', 'DELETE'))) {
@@ -210,7 +212,7 @@ class APICore
             'message' => $buffer,
             'success' => $success_msg
         );
-
+echo json_encode($this->response);
         curl_close($curl_handle);
     }
 }

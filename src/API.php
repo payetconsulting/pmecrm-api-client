@@ -23,12 +23,66 @@ class API extends APICore
     }
 
     /**
+     * Create entity
      * @param $moduleName
      * @param array $params
      * @throws \Exception
      */
     public function create($moduleName, Array $params)
     {
+        $this->callModule('create', $moduleName, $params);
+    }
+
+    /**
+     * Retrieve entity
+     * @param $moduleName
+     * @param array $params
+     * @throws \Exception
+     */
+    public function retrieve($moduleName, Array $params)
+    {
+        $this->callModule('get', $moduleName, $params);
+    }
+
+    public function sendmail($parameters = array()) {
+        if(!is_array($parameters))
+            $parameters = array();
+        
+        if(empty($parameters['to']) or filter_var($parameters['to'],FILTER_VALIDATE_EMAIL) == false) {
+            throw new  \Exception('"to" email field is mandatory');
+        }
+
+        if(!empty($parameters['cc']) and filter_var($parameters['to'],FILTER_VALIDATE_EMAIL) == false) {
+            throw new  \Exception('"cc" email field must be a valid email');
+        }
+
+        if(!empty($parameters['bcc']) and filter_var($parameters['bcc'],FILTER_VALIDATE_EMAIL) == false) {
+            throw new  \Exception('"bcc" email field must be a valid email');
+        }
+
+        if(!empty($parameters['replyto']) and filter_var($parameters['replyto'],FILTER_VALIDATE_EMAIL) == false) {
+            throw new  \Exception('"replyto" email field must be a valid email');
+        }
+
+        if(empty($parameters['title'])) {
+            throw new  \Exception('"title" field is mandatory');
+        }
+
+        if(empty($parameters['body'])) {
+            throw new  \Exception('"body" field is mandatory');
+        }
+        
+        $this->mailer($parameters, 'sendmail');
+    }
+
+    /**
+     * call module
+     * @param $method
+     * @param $moduleName
+     * @param $params
+     * @throws \Exception
+     */
+    private function callModule($method, $moduleName, $params) {
         $moduleName = preg_replace('/([^a-z0-9_-])/i', '', $moduleName);
 
         if (trim($moduleName) == '') {
@@ -38,9 +92,8 @@ class API extends APICore
         } elseif (method_exists($this, $moduleName)) {
             throw new \Exception('Module Name is not valid');
         } else {
-            $this->$moduleName($params, 'create');
+            $this->$moduleName($params, $method);
         }
-
     }
 
     /**
